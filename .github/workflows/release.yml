@@ -32,7 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/oversight/pingprobe
+          images: ${{ env.REGISTRY }}/infrasonar/ping-probe
 
       - name: Get the version
         id: get_version
@@ -45,5 +45,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/oversight/pingprobe:${{ steps.get_version.outputs.VERSION }},ghcr.io/oversight/pingprobe:latest
+          tags: ghcr.io/infrasonar/ping-probe:${{ steps.get_version.outputs.VERSION }},ghcr.io/infrasonar/ping-probe:latest,ghcr.io/infrasonar/ping-probe:unstable
           labels: ${{ steps.meta.outputs.labels }}

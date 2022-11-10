@@ -44,5 +44,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/infrasonar/ping-probe:${{ steps.get_version.outputs.VERSION }}
+          tags: ghcr.io/infrasonar/ping-probe:${{ steps.get_version.outputs.VERSION }},ghcr.io/infrasonar/ping-probe:unstable
           labels: ${{ steps.meta.outputs.labels }}
