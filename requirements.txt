@@ -1,2 +1,2 @@
 icmplib==3.0.3
-libprobe==0.2.3
+libprobe==0.2.4
