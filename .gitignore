@@ -8,3 +8,5 @@ __pycache__/
 # Test folder
 testing/
 
+# Target
+target/
