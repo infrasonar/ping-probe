@@ -12,7 +12,7 @@ TYPE_NAME = 'icmp'
 ITEM_NAME = 'ping'
 
 
-def get_item(itm, name, address):
+def get_item(itm, name, address, count):
     max_time = None
     min_time = None
 
@@ -23,15 +23,15 @@ def get_item(itm, name, address):
     return {
         'name': name,
         'address': address,
-        'droppedCount': itm.packets_sent - itm.packets_received,  # int
-        'successCount': itm.packets_received,  # int
+        'count': count,
+        'dropped': itm.packets_sent - itm.packets_received,  # int
         'maxTime': max_time,  # float (s) or None
         'minTime': min_time,  # float(s) or None
     }
 
 
-def get_state(data, address):
-    state = {TYPE_NAME: [get_item(data, ITEM_NAME, address)]}
+def get_state(data, address, count):
+    state = {TYPE_NAME: [get_item(data, ITEM_NAME, address, count)]}
     return state
 
 
@@ -62,4 +62,4 @@ async def check_ping(
         error_msg = str(e) or type(e).__name__
         raise CheckException(f"ping failed: {error_msg}")
 
-    return get_state(data, address)
+    return get_state(data, address, count)
