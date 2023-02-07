@@ -35,7 +35,7 @@ asset:
   name: "foo.local"
   check: "ping"
   config:
-    address: "http://example.com"
+    address: "192.168.1.2"
     interval: 1
     count: 5
     timeout: 5
