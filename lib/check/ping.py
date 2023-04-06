@@ -1,7 +1,7 @@
 import logging
 from icmplib import async_ping
 from libprobe.asset import Asset
-from libprobe.exceptions import CheckException
+from libprobe.exceptions import CheckException, NoCountException
 from ..utils import check_config
 
 
@@ -62,4 +62,8 @@ async def check_ping(
         error_msg = str(e) or type(e).__name__
         raise CheckException(f"ping failed: {error_msg}")
 
-    return get_state(data, address, count)
+    result = get_state(data, address, count)
+    if data.packets_sent > 0 and data.packets_received == 0:
+        raise NoCountException('all packages dropped', result)
+
+    return result
