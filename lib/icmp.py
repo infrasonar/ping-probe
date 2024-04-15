@@ -87,12 +87,15 @@ _MESSAGES_V4 = {
     38: 'Domain Name Reply (Deprecated)',
     39: 'SKIP (Deprecated)',
     40: 'Photuris',
-    41: 'ICMP messages utilized by experimental mobility protocols such as Seamoby',
+    41: (
+        'ICMP messages utilized by experimental mobility protocols '
+        'such as Seamoby'),
     42: 'Extended Echo Request',
     43: 'Extended Echo Reply',
     253: 'RFC3692-style Experiment 1',
     254: 'RFC3692-style Experiment 2',
 }
+
 
 def _raise_for_status(self, catch_messages: List[str]):
     '''
@@ -124,9 +127,10 @@ def _raise_for_status(self, catch_messages: List[str]):
 
     # Type 0 and 129 are success "Echo", Type 5 and 137 "Redirect" (added)
     if (self._family == 4 and self._type != 0 and self._type != 5 or
-        self._family == 6 and self._type != 129 and self._type != 137):
+            self._family == 6 and self._type != 129 and self._type != 137):
         message = f'Error type: {self._type}, code: {self._code}'
         raise ICMPError(message, self)
+
 
 #
 # This method is copied out the icmplib, with the `catch_messages` added to
@@ -136,9 +140,10 @@ def _raise_for_status(self, catch_messages: List[str]):
 #
 # Both can happen and should not be handled as dropped.
 #
-async def async_ping2(catch_messages: List[str], address, count=4, interval=1,
-         timeout=2, id=None, source=None, family=None, privileged=True,
-         **kwargs):
+async def async_ping2(
+        catch_messages: List[str], address, count=4, interval=1,
+        timeout=2, id=None, source=None, family=None, privileged=True,
+        **kwargs):
     '''
     Send ICMP Echo Request packets to a network host.
 
