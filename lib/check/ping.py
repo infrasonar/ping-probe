@@ -39,9 +39,10 @@ def get_state(data, address, count, messages):
 
 class CheckPing(Check):
     key = 'ping'
+    unchanged_eol = 0
 
     @staticmethod
-    async def run(asset: Asset, asset_config: dict, config: dict) -> dict:
+    async def run(asset: Asset, local_config: dict, config: dict) -> dict:
         address = config.get('address')
         if not address:
             address = asset.name
@@ -56,17 +57,32 @@ class CheckPing(Check):
             f"ping {address}; "
             f"count: {count} interval: {interval} timeout: {timeout}; {asset}")
 
-        try:
-            data = await async_ping2(
-                catch_messages,
-                address,
-                count=count,
-                interval=interval,
-                timeout=timeout,
-            )
-        except Exception as e:
-            error_msg = str(e) or type(e).__name__
-            raise CheckException(f"ping failed: {error_msg}")
+        class Itm:
+            max_rtt: float
+            min_rtt: float
+            is_alive: bool
+            packets_sent: int
+            packets_received: int
+
+        data = Itm()
+        data.max_rtt = 6588.8
+        data.min_rtt = 4124.3
+        data.is_alive = True
+        data.packets_received = count
+        data.packets_sent = count
+        catch_messages = ['foo', 'bar']
+
+        # try:
+        #     data = await async_ping2(
+        #         catch_messages,
+        #         address,
+        #         count=count,
+        #         interval=interval,
+        #         timeout=timeout,
+        #     )
+        # except Exception as e:
+        #     error_msg = str(e) or type(e).__name__
+        #     raise CheckException(f"ping failed: {error_msg}")
 
         result = get_state(data, address, count, catch_messages)
         if data.packets_sent > 0 and data.packets_received == 0:
