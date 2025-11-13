@@ -57,32 +57,17 @@ class CheckPing(Check):
             f"ping {address}; "
             f"count: {count} interval: {interval} timeout: {timeout}; {asset}")
 
-        class Itm:
-            max_rtt: float
-            min_rtt: float
-            is_alive: bool
-            packets_sent: int
-            packets_received: int
-
-        data = Itm()
-        data.max_rtt = 6588.8
-        data.min_rtt = 4124.3
-        data.is_alive = True
-        data.packets_received = count
-        data.packets_sent = count
-        catch_messages = ['foo', 'bar']
-
-        # try:
-        #     data = await async_ping2(
-        #         catch_messages,
-        #         address,
-        #         count=count,
-        #         interval=interval,
-        #         timeout=timeout,
-        #     )
-        # except Exception as e:
-        #     error_msg = str(e) or type(e).__name__
-        #     raise CheckException(f"ping failed: {error_msg}")
+        try:
+            data = await async_ping2(
+                catch_messages,
+                address,
+                count=count,
+                interval=interval,
+                timeout=timeout,
+            )
+        except Exception as e:
+            error_msg = str(e) or type(e).__name__
+            raise CheckException(f"ping failed: {error_msg}")
 
         result = get_state(data, address, count, catch_messages)
         if data.packets_sent > 0 and data.packets_received == 0:
