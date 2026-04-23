@@ -1,4 +1,3 @@
-from typing import List
 import asyncio
 
 from icmplib.sockets import ICMPv4Socket, ICMPv6Socket, AsyncSocket
@@ -97,7 +96,7 @@ _MESSAGES_V4 = {
 }
 
 
-def _raise_for_status(self, catch_messages: List[str]):
+def _raise_for_status(self, catch_messages: list[str]):
     '''
     Throw an exception if the reply is not an ICMP Echo Reply.
     Otherwise, do nothing.
@@ -141,7 +140,7 @@ def _raise_for_status(self, catch_messages: List[str]):
 # Both can happen and should not be handled as dropped.
 #
 async def async_ping2(
-        catch_messages: List[str], address, count=4, interval=1,
+        catch_messages: list[str], address, count=4, interval=1,
         timeout=2, id=None, source=None, family=None, privileged=True,
         **kwargs):
     '''
