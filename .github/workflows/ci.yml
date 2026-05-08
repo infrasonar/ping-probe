@@ -7,6 +7,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,9 +24,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pycodestyle pyright
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      # - name: Run tests with pytest
-      #   run: |
-      #     pytest
       - name: Lint with PyCodeStyle
         run: |
           find . -name \*.py -exec pycodestyle {} +
